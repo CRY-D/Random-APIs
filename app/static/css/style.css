@@ -1,0 +1,517 @@
+@font-face {
+    font-family: "M";
+    src: url("rooneysans.woff2");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="light"] {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+html[data-theme="light"] img {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+html[data-theme="light"] video {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #0E141B;
+    font-family: 'M', sans-serif;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: transparent;
+
+
+}
+
+.loader.done {
+    background-color: #29a55b;
+    animation: none
+}
+
+.loader.fail {
+    background-color: #c53131;
+    animation: none;
+}
+
+@keyframes flash {
+    0% {
+        background-color: #1b50e6;
+    }
+
+    50% {
+        background-color: #162c68;
+    }
+
+    100% {
+        background-color: #0b3abd
+    }
+}
+
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    width: 400px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    color: #FFF;
+    max-height: 200px;
+    height: 200px;
+    transition: all 0.3s ease-in-out;
+    background-color: #1e3a8a;
+    border: 2px solid #1b50e6;
+}
+
+
+.fade-me-out.htmx-swapping {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}
+
+.checking {
+    position: absolute;
+    bottom: calc(100% + 4px);
+    right: 0;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    color: #ccc;
+    border-radius: 2px;
+    padding: 1px;
+    gap: 5px;
+}
+
+.card.anim,
+.checking.anim {
+    animation: flash 0.5s ease-out infinite alternate;
+}
+
+.card.anim {
+    animation: flash 1s ease-out infinite alternate;
+}
+
+.card.alive {
+    background-color: rgba(20, 82, 45, 0.8);
+    border: 2px solid rgba(47, 189, 104, 0.8);
+
+}
+
+.card.dead {
+    background-color: rgba(127, 29, 29, 0.8);
+    border: 2px solid #c53131
+}
+
+.card>.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .status {
+    display: flex;
+    align-items: center;
+}
+
+.status>div {
+    display: flex;
+    margin-right: 5px;
+}
+
+.header button {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    outline: none;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    padding: 4px;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+}
+
+.header button path {
+    fill: #ccc
+}
+
+#bookmark-btn:active {
+    transform: scale(1.01);
+}
+
+.header button:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    transform: scale(1.05);
+}
+
+.card h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 13px;
+    margin-bottom: 10px;
+    overflow-y: scroll;
+
+}
+
+.button-wrapper {
+    display: flex;
+    width: 400px;
+    gap: 10px;
+}
+
+.button-wrapper button {
+    flex: content;
+    font-family: inherit;
+    padding: 5px 20px;
+    font-size: 18px;
+    background-color: #1E3A8A;
+    color: #fff;
+    border: 2px solid #2858da;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.1s linear;
+}
+
+.button-wrapper button:hover {
+
+    background-color: #2858da;
+
+}
+
+
+.button-wrapper button:active {
+    background-color: #11369b;
+
+    transform: scale(1.01);
+}
+
+.button-wrapper button:focus {
+    outline: none;
+}
+
+
+.info {
+    display: flex;
+    justify-content: space-between;
+}
+
+small {
+    display: inline-block;
+    font-size: 10px;
+}
+
+.tag {
+    display: inline-block;
+
+    padding: 0 3px;
+    border-radius: 3px;
+}
+
+.tag.success {
+    border: 1px solid #29a55b;
+    background-color: #134428;
+}
+
+.form-control {
+
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    padding: 5px;
+    border: 2px solid #2858da;
+    border-radius: 5px;
+}
+
+input[type=checkbox] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    margin: 0;
+    color: #2858da;
+    /* width: 1.15em;
+    height: 1.15em; */
+    width: 15px;
+    height: 15px;
+    border: 2px solid #2858da;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+    position: relative;
+
+}
+
+input[type=checkbox]:active {
+    transform: scale(0.85);
+    background-color: #223f8d;
+
+}
+
+input[type=checkbox]:checked:active {
+    transform: scale(1.05);
+    background-color: #fff;
+}
+
+input[type=checkbox]::before {
+    content: "";
+
+    width: 8.5px;
+    height: 8.5px;
+
+    clip-path: polygon(0% 15%, 15% 15%, 15% 0%, 85% 0%, 85% 15%, 100% 15%, 100% 85%, 85% 85%, 85% 100%, 15% 100%, 15% 85%, 0% 85%);
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    transform: scale(0);
+    transform-origin: center;
+    transition: .5s transform cubic-bezier(0.075, 0.8, 0.15, 1);
+    background-color: #2858da;
+}
+
+input[type=checkbox]:checked::before {
+    transform: scale(1);
+}
+
+
+input[type=checkbox]:disabled {
+    color: #999;
+    cursor: not-allowed;
+}
+
+footer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.bookmarks {
+
+    padding: 10px;
+    /* flex: 1; */
+    max-width: 100%;
+    width: 800px;
+    overflow-y: scroll;
+    max-height: 300px;
+    background-color: #6060601a;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+
+}
+
+.bookmark {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    border-radius: 5px;
+    transition: 0.3s all ease;
+    border: 2px solid #12171f;
+    width: 100px;
+
+}
+
+.bookmark.dd {
+    border-color: #1b50e6;
+}
+
+.bookmark.dd span {
+    background-color: #1b50e6;
+}
+
+@keyframes gestureAnimation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes gestureAnimationOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+.gesture-animation {
+    animation: gestureAnimation .3s ease-in-out;
+}
+
+.gesture-animation-out {
+    animation: gestureAnimationOut .3s linear;
+}
+
+
+
+.bookmark a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: #ccc;
+    border-radius: 5px;
+
+    transition: all 0.3s ease;
+}
+
+.bookmark:hover {
+    background-color: #101216;
+    border-color: #2858da;
+}
+
+.bookmark:hover span {
+    background-color: #2858da;
+}
+
+.bookmark:hover a {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.bookmark a img {
+    width: 50px;
+    margin-top: 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.bookmark a span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100px;
+    min-width: 100px;
+    text-align: center;
+    display: block;
+    background: #12171f;
+    font-size: 10px;
+    border-radius: 0 0 5px 5px;
+    padding: 5px;
+    transition: all 0.3s ease;
+    ;
+}
+
+.bookmark button {
+    display: none;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-family: inherit;
+    background-color: #2654d1;
+    color: #a99;
+    border: none;
+    border-radius: 5px;
+    cursor: default;
+    transition: background-color 0.1s linear;
+
+    width: 20px;
+    height: 20px;
+}
+
+.bookmark:hover button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.fav_icon {
+    width: 25px;
+    height: 25px;
+    padding: 3px;
+    display: flex;
+    place-content: center;
+    background-color: #14462a;
+    border: 2px solid #29a55b;
+    border-radius: 5px;
+}
+
+.fav_icon.fail {
+    background-color: rgba(127, 29, 29, 0.8);
+    border-color: #c53131
+}
+
+.fav_icon img {
+    width: 100%;
+    border-radius: 2px;
+}

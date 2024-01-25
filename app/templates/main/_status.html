@@ -1,0 +1,17 @@
+{% if success %}
+<span class='loader done'></span>
+<div class="fav_icon">
+    <img id="fav" src="{{ favicon_url if favicon_url else  url_for('static', filename='img/notfound.png')  }}" />
+</div>
+<script>
+document.getElementById("bookmark-btn").style.display = 'flex'
+</script>
+{% else %}
+<span class='loader fail'></span>
+<div class="fav_icon fail">
+    <img src="{{ favicon_url if favicon_url else  url_for('static', filename='img/notfound.png')  }}" />
+</div>
+<audio autoplay>
+    <source src="{{ favicon_url if favicon_url else  url_for('static', filename='audio/notfound.mp3')  }}">
+</audio>
+{% endif %}

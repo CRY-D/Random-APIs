@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>usefull Api</title>
+</head>
+
+<body>
+    <main>
+        <a class="card alive" id="result" href="#" hx-get="/get_random_row" hx-trigger="load" hx-target="this" hx-swap="outerHTML">
+        </a>
+        <div class="button-wrapper">
+            <button hx-get="/get_random_row" hx-target="#result" hx-swap="outerHTML">Get Random API</button>
+            <label class="form-control" for="checkbox">
+                <input type="checkbox" name="check" id="checkbox" />
+                Open API URL in new tab
+            </label>
+        </div>
+    </main>
+    <footer>
+        <ul class="bookmarks">
+            <!-- <li class="bookmark">
+                <button onclick="">×</button>
+                <a href="#" > 
+                    <img src="https://www.joshwcomeau.com/assets/favicon.png?v=4" alt="">
+                    <span>Lorem ipsum dolor sit amet.</span>
+                </a>
+            </li> -->
+        </ul>
+    </footer>
+    <script src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

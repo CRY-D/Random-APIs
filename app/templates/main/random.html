@@ -1,0 +1,101 @@
+<a class="card fade-me-out" id="result" href="{{ entry.Link }}" target="_blank">
+    <div class="header">
+        <h3>{{ entry.API }}</h3>
+        <div class="status">
+            <div>
+                <span id="status-checking" class="checking anim" hx-get="/check_status/{{ entry.Link }}" hx-swap="innerHTML" hx-trigger="load">
+                    <strong>checking status... </strong>
+                    <span class="loader"></span>
+                </span>
+            </div>
+            <button type="button" id="bookmark-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                    <path fill="currentColor" fill-rule="evenodd" d="m8 9.524l.976.837l2.988 2.56a.325.325 0 0 0 .536-.246V4.5A1.5 1.5 0 0 0 11 3H5a1.5 1.5 0 0 0-1.5 1.5v8.175a.325.325 0 0 0 .536.247l2.988-2.56zM14 4.5a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v8.175a1.825 1.825 0 0 0 3.013 1.386L8 11.5l2.987 2.56A1.825 1.825 0 0 0 14 12.676z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <p>
+        {{ entry.Description }}
+    </p>
+    <div class="info">
+        <small>Auth:<span class="tag success">{{ entry.Auth }}</span> </small>
+        <small>HTTPS:<span class="tag success">{{ entry.HTTPS }}</span> </small>
+        <small>Cors:<span class="tag success">{{ entry.Cors }}</span> </small>
+        <small>Category:<span class="tag success">{{ entry.Category }}</span> </small>
+    </div>
+    <script>
+    var book_btn = document.getElementById("bookmark-btn");
+    book_btn.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+
+        const ul = document.querySelector(".bookmarks");
+        let newLiElement = document.createElement('li');
+        newLiElement.classList.add("bookmark")
+        let image = document.getElementById("fav").getAttribute("src");
+
+        let existingData = localStorage.getItem('fav_api');
+        let apiArray = existingData ? JSON.parse(existingData) : [];
+        let newData = {
+            'API': "{{ entry.API }}",
+            'Link': "{{ entry.Link }}",
+            'ImageURL': image
+        }
+        let isDuplicate = apiArray.some(item => item.Link === newData.Link.toString());
+
+        if (!isDuplicate) {
+            apiArray.push(newData);
+            localStorage.setItem('fav_api', JSON.stringify(apiArray));
+
+            let temp = ` 
+                    <button class="remove-btn">×</button>
+                    <a href="{{ entry.Link }}" target="_blank"> 
+                        <img src="${image}" alt="">
+                        <span>{{ entry.API }}</span>
+                    </a> 
+                `
+            newLiElement.innerHTML = temp
+            ul.appendChild(newLiElement)
+            newLiElement.querySelector('button').addEventListener("click", (e) => {
+                let parent = e.target.parentElement;
+                let apiText = parent.querySelector('span').innerText;
+                let apis = JSON.parse(localStorage.getItem('fav_api'))
+                let index = apis.findIndex(x => x.API === apiText)
+                apis.splice(index, 1)
+                localStorage.setItem('fav_api', JSON.stringify(apis))
+                parent.classList.add('gesture-animation-out');
+                parent.addEventListener('animationend', () => {
+                    let sibling = parent.nextElementSibling;
+                    let popout = "/static/audio/trash.wav"
+                    let audio = new Audio(popout);
+                    audio.play();
+                    parent.remove();
+
+                    if (sibling) {
+                        sibling.classList.add('gesture-animation');
+                    }
+                })
+
+
+            })
+            let pop = "/static/audio/plunger.mp3"
+            let audio = new Audio(pop);
+            audio.play();
+            newLiElement.classList.add('gesture-animation');
+            newLiElement.classList.add('dd');
+            newLiElement.addEventListener('animationend', () => {
+                newLiElement.classList.remove('gesture-animation');
+                newLiElement.classList.remove('dd');
+            });
+        }
+
+
+    });
+
+    if (document.getElementById("checkbox").checked) {
+        window.open("{{ entry.Link }}", "_blank");
+    }
+    </script>
+</a>
